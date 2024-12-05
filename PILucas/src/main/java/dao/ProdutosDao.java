@@ -29,7 +29,7 @@ public class ProdutosDao {
         this.em.remove(produtos);
     }
 
-    public void alterar(Produtos produtos){
+    public static void alterar(Produtos produtos){
         em.merge(produtos);
     }
 

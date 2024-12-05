@@ -12,8 +12,8 @@ import java.awt.event.ActionListener;
 
 public class JanelaCliente implements ActionListener {
     JButton btOk, btLimp;
-    JLabel lbNomeCliente, lbEndereco, lbEmail, lbCPF, lbCEP;
-    JTextField tfNomeCliente, tfEndereco, tfEmail, tfCPF, tfCEP;
+    JLabel lbNomeCliente, lbEndereco, lbEmail, lbCPF, lbCEP, lbSenha;
+    JTextField tfNomeCliente, tfEndereco, tfEmail, tfCPF, tfCEP, tfSenha;
 
     public JanelaCliente() {
         JFrame janela = new JFrame("Cadastro de Cliente");
@@ -29,6 +29,9 @@ public class JanelaCliente implements ActionListener {
 
         lbEmail = new JLabel("Email      ");
         tfEmail = new JTextField(20);
+
+        lbSenha = new JLabel("Senha");
+        tfSenha = new JPasswordField(20);
 
         lbCPF = new JLabel("CPF         ");
         tfCPF = new JTextField(20);
@@ -46,6 +49,8 @@ public class JanelaCliente implements ActionListener {
         janela.add(tfEndereco);
         janela.add(lbEmail);
         janela.add(tfEmail);
+        janela.add(lbSenha);
+        janela.add(tfSenha);
         janela.add(lbCPF);
         janela.add(tfCPF);
         janela.add(lbCEP);
@@ -67,10 +72,11 @@ public class JanelaCliente implements ActionListener {
             String nomeCliente = tfNomeCliente.getText();
             String endereco = tfEndereco.getText();
             String email = tfEmail.getText();
+            String senha = tfSenha.getText();
             Long cpf = Long.parseLong(tfCPF.getText());
             Long cep = Long.parseLong(tfCEP.getText());
 
-            Cliente cliente = new Cliente(email, endereco, nomeCliente, cpf, cep);
+            Cliente cliente = new Cliente(email, endereco, nomeCliente, cpf, cep, senha);
 
             EntityManager em = JPAUtil.getEtityManager();
             ClienteDao clienteDao = new ClienteDao(em);
@@ -86,6 +92,7 @@ public class JanelaCliente implements ActionListener {
         tfCEP.setText("");
         tfCPF.setText("");
         tfEmail.setText("");
+        tfSenha.setText("");
         tfEndereco.setText("");
     }
 }

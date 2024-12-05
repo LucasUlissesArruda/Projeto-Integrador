@@ -521,7 +521,7 @@ public class JanelaPrincipal implements ActionListener {
         CategoriaDao categoriaDao = new CategoriaDao(em);
 
         List<Produtos> todosRegistros = produtosDao.buscarTodos();
-        resultado = "ID - nome - Descrição - Valor - QtdEstoque - Marca - Categoria \n";
+        resultado = "ID - nome - Numeração - Valor - QtdEstoque - Marca - Categoria \n\n";
 
         int numReg = todosRegistros.size();
         for (int i=0; i<numReg; i++){
@@ -534,7 +534,7 @@ public class JanelaPrincipal implements ActionListener {
                     todosRegistros.get(i).getValor() + " - " +
                     todosRegistros.get(i).getQtdeEstoque() + " - " +
                     marca.getDescricao()+ " - " +
-                    categoria.getDescricao() + "\n";
+                    categoria.getDescricao() + "\n\n";
         }
         return resultado;
     }
@@ -569,13 +569,11 @@ public class JanelaPrincipal implements ActionListener {
                 produtos.setQtdeEstoque(qtdEstoque);
                 break;
             case 4:
-                int marca = Integer.parseInt( JOptionPane.showInputDialog("Selecione a Marca"));
-                produtos.setIdMarca(marca);
+                new janelaSelecionarMarca(id);
                 break;
 
             case 5:
-                int categoria = Integer.parseInt( JOptionPane.showInputDialog("Selecione a Categoria"));
-                produtos.setIdCategoria(categoria);
+                new janelaSelecionarCategoria(id);
                 break;
         }
 
@@ -601,14 +599,15 @@ public class JanelaPrincipal implements ActionListener {
         ClienteDao clienteDao = new ClienteDao(em);
 
         List<Cliente> todosRegistros = clienteDao.buscarTodos();
-        resultado = "ID - nome - Endereço - Email - CPF - CEP \n";
+        resultado = "ID - nome - Endereço - Email - Senha - CPF - CEP \n";
 
         int numReg = todosRegistros.size();
         for (int i=0; i<numReg; i++){
             resultado += todosRegistros.get(i).getIdclientes() + " - " +
                     todosRegistros.get(i).getNomeCliente() + " - " +
-                    todosRegistros.get(i).getEmail() + " - " +
                     todosRegistros.get(i).getEndereco() + " - " +
+                    todosRegistros.get(i).getEmail() + " - " +
+                    todosRegistros.get(i).getSenha() + " - " +
                     todosRegistros.get(i).getCpf() + " - " +
                     todosRegistros.get(i).getCep() + "\n";
         }
@@ -623,7 +622,7 @@ public class JanelaPrincipal implements ActionListener {
         em.getTransaction().begin();
         clienteDao.alterar(cliente);
 
-        String botoes [] = {"Nome", "Endereço" ,"Email", "CPF", "CEP" };
+        String botoes [] = {"Nome", "Endereço" ,"Email", "CPF", "CEP", "Senha" };
 
         int  opcao = JOptionPane.showOptionDialog(null,"Qual Deseja Alterar" , "Modificação" , 0, 3,null,botoes, 0 );
 
@@ -633,13 +632,14 @@ public class JanelaPrincipal implements ActionListener {
                 cliente.setNomeCliente(nome);
                 break;
             case 1:
-                String email = JOptionPane.showInputDialog("Digite o Email");
-                cliente.setEmail(email);
-                break;
-            case 2:
                 String endereco = JOptionPane.showInputDialog("Digite o Endereço");
                 cliente.setEndereco(endereco);
                 break;
+            case 2:
+                String email = JOptionPane.showInputDialog("Digite o Email");
+                cliente.setEmail(email);
+                break;
+
             case 3:
                 Long cpf = Long.parseLong(JOptionPane.showInputDialog("Digite o CPF"));
                 cliente.setCpf(cpf);
@@ -647,6 +647,10 @@ public class JanelaPrincipal implements ActionListener {
             case 4:
                 Long cep = Long.parseLong(JOptionPane.showInputDialog("Digite o CEP"));
                 cliente.setCep(cep);
+                break;
+            case 5:
+                String senha = JOptionPane.showInputDialog("Digite a Senha");
+                cliente.setSenha(senha);
                 break;
         }
 
@@ -725,8 +729,7 @@ public class JanelaPrincipal implements ActionListener {
                 avaliacao.setNota(nota);
                 break;
             case 2:
-                int Produto = Integer.parseInt( JOptionPane.showInputDialog("Selecione o Produto"));
-                avaliacao.setIdproduto(Produto);
+                new janelaSelecionarProduto(id);
                 break;
         }
 
@@ -756,19 +759,21 @@ public class JanelaPrincipal implements ActionListener {
         FormaPagamentosDao formaPagamentosDao = new FormaPagamentosDao(em);
 
         List<Vendas> todosRegistros = vendasDao.buscarTodos();
-        resultado = "ID - Data Venda - Cliente - Frete - Desconto - Forma Pagamento\n";
+        resultado = "ID - Data Venda - Cliente - Frete - Desconto - Forma Pagamento\n\n";
 
         int numReg = todosRegistros.size();
         for (int i=0; i<numReg; i++){
             Cliente cliente = ClienteDao.buscarPorId(todosRegistros.get(i).getIdClientes());
             Desconto desconto = DescontoDao.buscarPorId(todosRegistros.get(i).getIdDesconto());
             FormaPagamentos formaPagamentos = FormaPagamentosDao.buscarPorId(todosRegistros.get(i).getIdFormaPagamento());
+            System.out.println("\n\n");
             resultado += todosRegistros.get(i).getIdvendas() + " - " +
                     todosRegistros.get(i).getDataVenda() + " - " +
-                    cliente.getNomeCliente() + "\n" +
+                    cliente.getNomeCliente() + " - " +
                     todosRegistros.get(i).getFrete() + " - " +
-                    desconto.getPorcentagem() +"-" +
-                    formaPagamentos.getDescPagamento() + " - " ;
+                    desconto.getPorcentagem() +" - " +
+                    formaPagamentos.getDescPagamento() + " \n\n " ;
+
         }
         return resultado;
     }
@@ -799,12 +804,10 @@ public class JanelaPrincipal implements ActionListener {
                 vendas.getFrete();
                 break;
             case 3:
-                int desconto = Integer.parseInt(JOptionPane.showInputDialog("Desconto"));
-                vendas.getIdDesconto();
+                new janelaSelecionarDesconto(id);
                 break;
             case 4:
-                int cep = Integer.parseInt(JOptionPane.showInputDialog("Forma Pagamento"));
-                vendas.setIdFormaPagamento(id);
+                new janelaSelecionarFormaPagamento(id);
                 break;
         }
 

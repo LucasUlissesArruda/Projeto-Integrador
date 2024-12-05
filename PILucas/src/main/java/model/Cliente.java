@@ -8,21 +8,19 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idclientes;
-    private String email;
-    private String endereco;
-    private String nomeCliente;
-    private Long cpf;
-    private Long cep;
+    private String email, endereco,nomeCliente, senha;
+    private Long cpf, cep;
 
     public Cliente() {
     }
 
-    public Cliente(String email, String endereco, String nomeCliente, Long cpf, Long cep) {
+    public Cliente(String email, String endereco, String nomeCliente, Long cpf, Long cep, String senha) {
         this.email = email;
         this.endereco = endereco;
         this.nomeCliente = nomeCliente;
         this.cpf = cpf;
         this.cep = cep;
+        this.senha = senha;
     }
 
     public int getIdclientes() {
@@ -31,6 +29,14 @@ public class Cliente {
 
     public void setIdclientes(int idclientes) {
         this.idclientes = idclientes;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public String getEmail() {
